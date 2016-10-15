@@ -41,10 +41,11 @@ app.get("/contacts", function(req, res) {
     //        full_name: "Grace Hopper"
     //    }
     //});
-    res.status(200).json({message : "hellooooooo"});
+    res.status(200).json({message : "this is a get"});
 });
 
 app.post("/contacts", function(req, res) {
+    res.status(200).json({message : "this is a post"});
 });
 
 /*  "/contacts/:id"
