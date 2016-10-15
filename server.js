@@ -41,15 +41,10 @@ app.get("/contacts", function(req, res) {
     //        full_name: "Grace Hopper"
     //    }
     //});
-
-    res.status(200).json({message : "this is a get"});
-
+    res.status(200).json({message : "evan was here"});
 });
 
 app.post("/contacts", function(req, res) {
-
-    res.status(200).json({message : "this is a post"});
-
 });
 
 /*  "/contacts/:id"
@@ -59,7 +54,7 @@ app.post("/contacts", function(req, res) {
  */
 
 app.get("/contacts/:id", function(req, res) {
-    res.status(200).json({message : "this is a merge"});
+    res.status(200).json({message : "suck a dick evan"});
 });
 
 app.put("/contacts/:id", function(req, res) {
