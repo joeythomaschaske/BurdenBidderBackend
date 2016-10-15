@@ -54,7 +54,7 @@ app.post("/contacts", function(req, res) {
  */
 
 app.get("/contacts/:id", function(req, res) {
-    res.status(200).json({message : "suck a dick evan"});
+    res.status(200).json({message : "this is a merge"});
 });
 
 app.put("/contacts/:id", function(req, res) {
