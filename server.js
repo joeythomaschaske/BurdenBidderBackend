@@ -3,9 +3,10 @@ var firebase = require("firebase");
 var path = require("path");
 var bodyParser = require("body-parser");
 
+
 firebase.initializeApp({
     serviceAccount: "serviceAccountCredentials.json",
-    databaseURL: "https://testheroku-42d1f.firebaseio.com"
+    databaseURL: "https://burdenbidderbackend.firebaseio.com/"
 });
 
 var app = express();
@@ -29,18 +30,7 @@ function handleError(res, reason, message, code) {
  */
 
 app.get("/contacts", function(req, res) {
-    //var db = firebase.database();
-    //var ref = db.ref("/");
-    //var usersRef = ref.child("Accounts");
-    //usersRef.set({
-    //    EvansAccount: {
-    //        id: "1234",
-    //        full_name: "Evan Bauer"
-    //    }, gracehop: {
-    //        date_of_birth: "December 9, 1906",
-    //        full_name: "Grace Hopper"
-    //    }
-    //});
+
     res.status(200).json({message : "i updated JSON serviceAccountCredentials"});
 });
 
@@ -62,3 +52,78 @@ app.put("/contacts/:id", function(req, res) {
 
 app.delete("/contacts/:id", function(req, res) {
 });
+
+
+
+/*
+ * LOGIN SHIT
+ */
+
+//Create new user
+app.get("/SignIn/create", function(req, res) {
+
+    var email = "testDummy@something.com";
+    //ID and Password work *************************************************
+    var password = "password1";
+    var uid = "12345";
+    var token = firebase.auth().createCustomToken(uid);
+    //**********************************************************************
+    var firstName = "Test";
+    var lastName = "Dummy";
+    var dateOfBirth = "1/1/1111";
+    var taskBidder = true;
+    var phoneNo = "(111)-123-4567";
+    var street = "123 Main st.";
+    var city = "NYC";
+    var state = "NY";
+    var zipCode = "54321";
+
+    //Adding to database
+    var db = firebase.database();
+    var ref = db.ref("/Accounts/");
+    var usersRef = ref.child(firstName+lastName);
+    usersRef.set({
+        Account: {
+            Email: email,
+            Id: token,
+            FirstName: firstName,
+            LastName: lastName,
+            DateOfBirth: dateOfBirth,
+            TaskBidder: taskBidder,
+            PhoneNo: phoneNo,
+            Address: {
+                Street: street,
+                City: city,
+                State: state,
+                ZipCode: zipCode
+            }
+        }
+    });
+
+    res.status(200).json({message : "Account creation successful"});
+
+
+});
+
+//Login with existing
+app.get("/SignIn", function(req, res) {
+
+    var email = "random@att.net";
+    var password = "hello1";
+
+    if (!email || !password) {
+        return console.log("Email and password needed");
+    }
+
+
+});
+
+
+//Sign Out user
+app.get("/SignOut", function(req, res){
+    var signOut = function(){
+        firebase.auth().signOut();
+    };
+    res.status(200).json({message : "successfully signed out"});
+
+})
