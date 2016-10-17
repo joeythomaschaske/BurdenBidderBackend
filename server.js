@@ -42,10 +42,7 @@ app.get("/contacts", function(req, res) {
     //    }
     //});
     
-    
-    var resturnString = {message : 'i updated JSON serviceAccountCredentials'};
-    console.log(returnString);
-    res.status(200).json(JSON.stringify(returnString));
+    res.status(200).json({message : 'i updated JSON serviceAccountCredentials'});
 });
 
 app.post("/contacts", function(req, res) {
