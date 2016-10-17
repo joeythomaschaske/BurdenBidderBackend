@@ -30,8 +30,20 @@ function handleError(res, reason, message, code) {
  */
 
 app.get("/contacts", function(req, res) {
-
-    res.status(200).json({message : "i updated JSON serviceAccountCredentials"});
+    //var db = firebase.database();
+    //var ref = db.ref("/");
+    //var usersRef = ref.child("Accounts");
+    //usersRef.set({
+    //    EvansAccount: {
+    //        id: "1234",
+    //        full_name: "Evan Bauer"
+    //    }, gracehop: {
+    //        date_of_birth: "December 9, 1906",
+    //        full_name: "Grace Hopper"
+    //    }
+    //});
+    
+    res.status(200).json({message : 'i updated JSON serviceAccountCredentials'});
 });
 
 app.post("/contacts", function(req, res) {
@@ -126,4 +138,4 @@ app.get("/SignOut", function(req, res){
     };
     res.status(200).json({message : "successfully signed out"});
 
-})
+});
