@@ -41,6 +41,9 @@ app.get("/contacts", function(req, res) {
     //        full_name: "Grace Hopper"
     //    }
     //});
+    var valueString = "message: 'i updated JSON serviceAccountCredentials'";
+    var jsonString = JSON.parse(valueString);
+    console.log(jsonString);
     res.status(200).json({message : "i updated JSON serviceAccountCredentials"});
 });
 
