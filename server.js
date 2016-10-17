@@ -41,10 +41,11 @@ app.get("/contacts", function(req, res) {
     //        full_name: "Grace Hopper"
     //    }
     //});
-    var valueString = "message: 'i updated JSON serviceAccountCredentials'";
-    var jsonString = JSON.parse(valueString);
-    console.log(jsonString);
-    res.status(200).json({message : "i updated JSON serviceAccountCredentials"});
+    
+    
+    var resturnString = {message : 'i updated JSON serviceAccountCredentials'};
+    console.log(returnString);
+    res.status(200).json(JSON.stringify(returnString));
 });
 
 app.post("/contacts", function(req, res) {
