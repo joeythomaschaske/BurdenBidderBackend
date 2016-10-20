@@ -11,61 +11,33 @@ firebase.initializeApp({
 
 var app = express();
 app.use(express.static(__dirname + "/public"));
+app.use(bodyParser.urlencoded({
+    extended: true
+}));
 app.use(bodyParser.json());
+app.use(function (req, res, next) {
+
+    // Website you wish to allow to connect
+    res.setHeader('Access-Control-Allow-Origin', '*');
+
+    // Request methods you wish to allow
+    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
+
+    // Request headers you wish to allow
+    res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,content-type');
+
+    // Set to true if you need the website to include cookies in the requests sent
+    // to the API (e.g. in case you use sessions)
+    res.setHeader('Access-Control-Allow-Credentials', true);
+
+    // Pass to next layer of middleware
+    next();
+});
 
 var server = app.listen(process.env.PORT || 8080, function () {
     var port = server.address().port;
     console.log("App now running on port", port);
 });
-
-// Generic error handler used by all endpoints.
-function handleError(res, reason, message, code) {
-    console.log("ERROR: " + reason);
-    res.status(code || 500).json({"error": message});
-}
-
-/*  "/contacts"
- *    GET: finds all contacts
- *    POST: creates a new contact
- */
-
-app.get("/contacts", function(req, res) {
-    //var db = firebase.database();
-    //var ref = db.ref("/");
-    //var usersRef = ref.child("Accounts");
-    //usersRef.set({
-    //    EvansAccount: {
-    //        id: "1234",
-    //        full_name: "Evan Bauer"
-    //    }, gracehop: {
-    //        date_of_birth: "December 9, 1906",
-    //        full_name: "Grace Hopper"
-    //    }
-    //});
-    
-    res.status(200).json({message : 'i updated JSON serviceAccountCredentials'});
-});
-
-app.post("/contacts", function(req, res) {
-});
-
-/*  "/contacts/:id"
- *    GET: find contact by id
- *    PUT: update contact by id
- *    DELETE: deletes contact by id
- */
-
-app.get("/contacts/:id", function(req, res) {
-    res.status(200).json({message : "suck a dick evan"});
-});
-
-app.put("/contacts/:id", function(req, res) {
-});
-
-app.delete("/contacts/:id", function(req, res) {
-});
-
-
 
 /*
  * LOGIN SHIT
@@ -128,6 +100,11 @@ app.get("/SignIn", function(req, res) {
     }
 
 
+});
+
+app.post("/example", function(req, res) {
+    var message = 'Hello ' + req.body.name + ' your email is ' + req.body.email;
+    res.status(200).json({message : message});
 });
 
 
