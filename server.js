@@ -10,7 +10,6 @@ firebase.initializeApp({
 });
 
 var app = express();
-app.use(express.static(__dirname + "/public"));
 app.use(bodyParser.urlencoded({
     extended: true
 }));
@@ -89,6 +88,15 @@ app.get("/SignIn/create", function(req, res) {
 
 });
 
+app.post("/signup", function (req, res) {
+    var firstName = req.body.firstName;
+    var lastName = req.body.lastName;
+    var email = req.body.email;
+
+    var message = 'An account has been created for ' + firstName + ' ' + 'lastName' + ' use the email ' + email;
+    req.status(200).json({message: message});
+});
+
 //Login with existing
 app.get("/SignIn", function(req, res) {
 
@@ -103,7 +111,9 @@ app.get("/SignIn", function(req, res) {
 });
 
 app.post("/example", function(req, res) {
-    var message = 'Hello ' + req.body.name + ' your email is ' + req.body.email;
+    console.log(req.body);
+    var name = req.body.name.first;
+    var message = 'Hello ' + name + ' your email is ' + req.body.email;
     res.status(200).json({message : message});
 });
 
