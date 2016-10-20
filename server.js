@@ -130,7 +130,7 @@ app.get("/SignIn", function(req, res) {
 
 });
 
-app.put("example", function(req, res) {
+app.post("example", function(req, res) {
     var email = req.email;
     var name = req.name;
     console.log('Hi ' + name + ' your email is ' + email);
