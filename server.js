@@ -94,7 +94,7 @@ app.post("/signup", function (req, res) {
     var email = req.body.email;
 
     var message = 'An account has been created for ' + firstName + ' ' + 'lastName' + ' use the email ' + email;
-    req.status(200).json({message: message});
+    res.status(200).json({message: message});
 });
 
 //Login with existing
