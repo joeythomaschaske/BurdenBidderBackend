@@ -89,11 +89,13 @@ app.get("/SignIn/create", function(req, res) {
 });
 
 app.post("/signup", function (req, res) {
+    console.log('hello');
+    console.log(req.body);
     var firstName = req.body.firstName;
     var lastName = req.body.lastName;
-    var email = req.body.email;
+    var email = req.body.emailAddress;
 
-    var message = 'An account has been created for ' + firstName + ' ' + 'lastName' + ' use the email ' + email;
+    var message = 'An account has been created for ' + firstName + ' ' + lastName + ' using the email ' + email;
     res.status(200).json({message: message});
 });
 
