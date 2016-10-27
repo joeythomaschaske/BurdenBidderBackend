@@ -43,44 +43,24 @@ var server = app.listen(process.env.PORT || 8080, function () {
  */
 
 //Create new user
-app.get("/SignIn/create", function(req, res) {
+app.post("/create", function(req, res) {
 
-    var email = "testDummy@something.com";
-    //ID and Password work *************************************************
-    var password = "password1";
-    var uid = "12345";
-    var token = firebase.auth().createCustomToken(uid);
-    //**********************************************************************
-    var firstName = "Test";
-    var lastName = "Dummy";
-    var dateOfBirth = "1/1/1111";
-    var taskBidder = true;
-    var phoneNo = "(111)-123-4567";
-    var street = "123 Main st.";
-    var city = "NYC";
-    var state = "NY";
-    var zipCode = "54321";
-
+    console.log(req.body);
     //Adding to database
     var db = firebase.database();
     var ref = db.ref("/Accounts/");
-    var usersRef = ref.child(firstName+lastName);
+    var usersRef = ref.child(req.body.userId);
     usersRef.set({
-        Account: {
-            Email: email,
-            Id: token,
-            FirstName: firstName,
-            LastName: lastName,
-            DateOfBirth: dateOfBirth,
-            TaskBidder: taskBidder,
-            PhoneNo: phoneNo,
-            Address: {
-                Street: street,
-                City: city,
-                State: state,
-                ZipCode: zipCode
-            }
-        }
+        email: req.body.email,
+        userId: req.body.userId,
+        firstName: req.body.firstName,
+        lastName: req.body.lastName,
+        dateOfBirth: req.body.dateOfBirth,
+        phoneNo: req.body.phoneNo,
+        street: req.body.street,
+        city: req.body.city,
+        stateCode: req.body.stateCode,
+        zip: req.body.zip
     });
 
     res.status(200).json({message : "Account creation successful"});
