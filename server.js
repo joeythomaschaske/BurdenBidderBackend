@@ -64,6 +64,53 @@ app.post("/create", function(req, res) {
     });
 
     res.status(200).json({message : "Account creation successful"});
+});
 
+app.post("/createTask", function(req, res) {
 
+    console.log(req.body);
+    if(req.body.taskCreatorId) {
+        var title = req.body.title;
+        var description = req.body.description;
+        var category = req.body.category;
+        var openingPrice = req.body.openingPrice;
+        var currentBid = req.body.currentBid;
+        var taskCreatorId = req.body.taskCreatorId;
+        var createdDate = Date.now();
+        var Id = createdDate + taskCreatorId;
+
+        //Adding to database
+        var db = firebase.database();
+        var ref = db.ref("/Tasks/");
+        var tasksRef = ref.child(Id);
+        tasksRef.set({
+            title : title,
+            decription : description,
+            category : category,
+            openingPrice : openingPrice,
+            currentBid : currentBid,
+            taskCreatorId : taskCreatorId,
+            createdDate : createdDate,
+            Id : Id
+        });
+        res.status(200).json({message : "Task creation successful"});
+    } else {
+        res.status(501).json({message : "No taskCreatorId"});
+    }
+});
+
+app.post("/getAllTasks", function(req, res) {
+
+    if(req.body.userId) {
+        var db = firebase.database();
+        var ref = db.ref("/Tasks/");
+        ref.on("value", function(snapshot) {
+            res.status(200).json(snapshot.val());
+        }, function (errorObject) {
+            console.log("The read failed: " + errorObject.code);
+        });
+
+    } else {
+        res.status(501).json({message : "No userId"});
+    }
 });
