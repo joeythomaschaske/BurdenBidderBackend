@@ -106,7 +106,7 @@ app.post("/getAllTasks", function(req, res) {
     if(req.body.userId) {
         var db = firebase.database();
         var ref = db.ref("/Tasks/");
-        ref.on("value", function(snapshot) {
+        ref.once("value", function(snapshot) {
             res.status(200).json(snapshot.val());
         }, function (errorObject) {
             console.log("The read failed: " + errorObject.code);
