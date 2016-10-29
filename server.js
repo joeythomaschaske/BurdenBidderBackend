@@ -76,6 +76,7 @@ app.post("/createTask", function(req, res) {
         var openingPrice = req.body.openingPrice;
         var currentBid = req.body.currentBid;
         var taskCreatorId = req.body.taskCreatorId;
+        var imageUpload = req.body.imageUpload;
         var createdDate = Date.now();
         var Id = createdDate + taskCreatorId;
 
@@ -91,7 +92,8 @@ app.post("/createTask", function(req, res) {
             currentBid : currentBid,
             taskCreatorId : taskCreatorId,
             createdDate : createdDate,
-            Id : Id
+            Id : Id,
+            imageUpload : imageUpload
         });
         res.status(200).json({message : "Task creation successful"});
     } else {
