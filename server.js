@@ -116,3 +116,22 @@ app.post("/getAllTasks", function(req, res) {
         res.status(501).json({message : "No userId"});
     }
 });
+
+app.post("/getAccount", function(req, res) {
+
+    if(req.body.userId) {
+        //var db = firebase.database();
+        //var ref = db.ref("/Accounts/");
+
+        var ref = firebase.database().ref("Accounts/" + req.body.userId);
+        ref.once("value", function(snapshot) {
+            res.status(200).json(snapshot.val());
+        }, function (errorObject) {
+            console.log("The read failed: " + errorObject.code);
+        });
+
+        // ref.child('users').orderByChild('userId').equalTo(req.body.userId);
+    } else {
+        res.status(501).json({message : "No userId"});
+    }
+});
