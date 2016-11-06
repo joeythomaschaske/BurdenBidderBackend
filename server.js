@@ -135,3 +135,18 @@ app.post("/getAccount", function(req, res) {
         res.status(501).json({message : "No userId"});
     }
 });
+
+app.post("/getTask", function(req, res) {
+
+    if(req.body.taskId) {
+
+        var ref = firebase.database().ref("Tasks/" + req.body.taskId);
+        ref.once("value", function(snapshot) {
+            res.status(200).json(snapshot.val());
+        }, function (errorObject) {
+            console.log("The read failed: " + errorObject.code);
+        });
+    } else {
+        res.status(501).json({message : "No taskId"});
+    }
+});
