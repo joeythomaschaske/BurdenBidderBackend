@@ -104,9 +104,18 @@ app.post("/createTask", function(req, res) {
 app.post("/getAllTasks", function(req, res) {
 
     if(req.body.userId) {
+        var currentTime = Date.now();
+        var hour = 60 * 60 * 1000;
+        var hourAgo = currentTime - hour;
+        console.log('Current Time: ' + currentTime);
+        console.log('Hour Ago: ' + hourAgo);
         var db = firebase.database();
         var ref = db.ref("/Tasks/");
-        ref.once("value", function(snapshot) {
+        ref
+        .orderByChild('createdDate')
+        .startAt(hourAgo)
+        .endAt(currentTime)
+        .once("value", function(snapshot) {
             res.status(200).json(snapshot.val());
         }, function (errorObject) {
             console.log("The read failed: " + errorObject.code);
