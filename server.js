@@ -79,6 +79,8 @@ app.post("/createTask", function(req, res) {
         var imageUpload = req.body.imageUpload;
         var createdDate = Date.now();
         var Id = createdDate + taskCreatorId;
+        var lat = req.body.lat;
+        var long = req.body.long;
 
         //Adding to database
         var db = firebase.database();
@@ -93,7 +95,9 @@ app.post("/createTask", function(req, res) {
             taskCreatorId : taskCreatorId,
             createdDate : createdDate,
             Id : Id,
-            imageUpload : imageUpload
+            imageUpload : imageUpload,
+            lat : lat,
+            long: long
         });
         res.status(200).json({message : "Task creation successful"});
     } else {
