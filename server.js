@@ -105,6 +105,18 @@ app.post("/createTask", function(req, res) {
     }
 });
 
+app.post("/updateTask", function (req, res) {
+    console.log(req.body);
+    var Id = req.body.Id;
+    var db = firebase.database();
+    var ref = db.ref("/Tasks/");
+    var taskRef = ref.child(Id);
+    taskRef.update({
+        currentBid : req.body.currentBid
+    });
+    res.status(200).json({message : "Task update successful"});
+});
+
 app.post("/getAllTasks", function(req, res) {
 
     if(req.body.userId) {
