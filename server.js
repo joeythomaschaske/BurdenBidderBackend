@@ -114,7 +114,8 @@ app.post("/updateTask", function (req, res) {
     var ref = db.ref("/Tasks/");
     var taskRef = ref.child(Id);
     taskRef.update({
-        currentBid : req.body.currentBid
+        currentBid : req.body.currentBid,
+        taskBidderId : req.body.taskBidderId
     });
     res.status(200).json({message : "Task update successful"});
 });
