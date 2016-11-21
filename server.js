@@ -51,6 +51,7 @@ app.post("/create", function(req, res) {
     var ref = db.ref("/Accounts/");
     var usersRef = ref.child(req.body.userId);
     usersRef.set({
+        picture: req.body.picture,
         email: req.body.email,
         userId: req.body.userId,
         firstName: req.body.firstName,
@@ -76,7 +77,7 @@ app.post("/createTask", function(req, res) {
         var openingPrice = req.body.openingPrice;
         var currentBid = req.body.currentBid;
         var taskCreatorId = req.body.taskCreatorId;
-        var taskBidderId = req.body.taskBidderId;
+        var taskBidderId = 0;
         var imageUpload = req.body.imageUpload;
         var createdDate = Date.now();
         var Id = createdDate + taskCreatorId;
@@ -144,12 +145,58 @@ app.post("/getAllTasks", function(req, res) {
         res.status(501).json({message : "No userId"});
     }
 });
+app.post("/getUserCreatedTasks", function(req, res) {
+
+    if(req.body.userId) {
+        var currentTime = Date.now();
+        var hour = 60 * 60 * 1000;
+        var hourAgo = currentTime - hour;
+        console.log('Current Time: ' + currentTime);
+        console.log('Hour Ago: ' + hourAgo);
+        var db = firebase.database();
+        var ref = db.ref("/Tasks/");
+        ref
+            .orderByChild('taskCreatorId')
+            .startAt(req.body.userId)
+            .endAt(req.body.userId)
+            .once("value", function(snapshot) {
+                res.status(200).json(snapshot.val());
+            }, function (errorObject) {
+                console.log("The read failed: " + errorObject.code);
+            });
+
+    } else {
+        res.status(501).json({message : "No userId"});
+    }
+});
+app.post("/getUserBiddedTasks", function(req, res) {
+
+    if(req.body.userId) {
+        var currentTime = Date.now();
+        var hour = 60 * 60 * 1000;
+        var hourAgo = currentTime - hour;
+        console.log('Current Time: ' + currentTime);
+        console.log('Hour Ago: ' + hourAgo);
+        var db = firebase.database();
+        var ref = db.ref("/Tasks/");
+        ref
+            .orderByChild('taskBidderId')
+            .startAt(req.body.userId)
+            .endAt(req.body.userId)
+            .once("value", function(snapshot) {
+                res.status(200).json(snapshot.val());
+            }, function (errorObject) {
+                console.log("The read failed: " + errorObject.code);
+            });
+
+    } else {
+        res.status(501).json({message : "No userId"});
+    }
+});
 
 app.post("/getAccount", function(req, res) {
 
     if(req.body.userId) {
-        //var db = firebase.database();
-        //var ref = db.ref("/Accounts/");
 
         var ref = firebase.database().ref("Accounts/" + req.body.userId);
         ref.once("value", function(snapshot) {
@@ -158,7 +205,6 @@ app.post("/getAccount", function(req, res) {
             console.log("The read failed: " + errorObject.code);
         });
 
-        // ref.child('users').orderByChild('userId').equalTo(req.body.userId);
     } else {
         res.status(501).json({message : "No userId"});
     }
