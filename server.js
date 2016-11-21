@@ -76,6 +76,7 @@ app.post("/createTask", function(req, res) {
         var openingPrice = req.body.openingPrice;
         var currentBid = req.body.currentBid;
         var taskCreatorId = req.body.taskCreatorId;
+        var taskBidderId = req.body.taskBidderId;
         var imageUpload = req.body.imageUpload;
         var createdDate = Date.now();
         var Id = createdDate + taskCreatorId;
@@ -93,6 +94,7 @@ app.post("/createTask", function(req, res) {
             openingPrice : openingPrice,
             currentBid : currentBid,
             taskCreatorId : taskCreatorId,
+            taskBidderId : taskBidderId,
             createdDate : createdDate,
             Id : Id,
             imageUpload : imageUpload,
