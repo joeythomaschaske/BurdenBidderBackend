@@ -100,7 +100,8 @@ app.post("/createTask", function(req, res) {
             Id : Id,
             imageUpload : imageUpload,
             lat : lat,
-            long: long
+            long: long,
+            status: 'open'
         });
         res.status(200).json({message : "Task creation successful"});
     } else {
@@ -116,6 +117,18 @@ app.post("/updateTask", function (req, res) {
     var taskRef = ref.child(Id);
     taskRef.update({
         currentBid : req.body.currentBid,
+        taskBidderId : req.body.taskBidderId
+    });
+    res.status(200).json({message : "Task update successful"});
+});
+
+app.post("/rejectBidder", function (req, res) {
+    console.log(req.body);
+    var Id = req.body.Id;
+    var db = firebase.database();
+    var ref = db.ref("/Tasks/");
+    var taskRef = ref.child(Id);
+    taskRef.update({
         taskBidderId : req.body.taskBidderId
     });
     res.status(200).json({message : "Task update successful"});
@@ -224,3 +237,64 @@ app.post("/getTask", function(req, res) {
         res.status(501).json({message : "No taskId"});
     }
 });
+
+app.post("/completeTask", function(req, res) {
+    var Id = req.body.Id;
+    var db = firebase.database();
+    var ref = db.ref("/Tasks/");
+    var taskRef = ref.child(Id);
+    taskRef.update({
+        status: 'complete'
+    });
+    res.status(200).json({message : "Task update successful"});
+});
+
+app.post("/payTask", function(req, res) {
+    var Id = req.body.Id;
+    var db = firebase.database();
+    var ref = db.ref("/Tasks/");
+    var taskRef = ref.child(Id);
+    taskRef.update({
+        status: 'paid'
+    });
+    res.status(200).json({message : "Task update successful"});
+});
+
+app.post("/createReview", function(req, res) {
+    var relatedTo = req.body.relatedTo;
+    var description = req.body.description;
+    var rating = req.body.rating;
+    var Id = Date.now() + '' + relatedTo;
+    var title = req.body.title;
+
+    var db = firebase.database();
+    var ref = db.ref("/Reviews/");
+    var reviewRef = ref.child(Id);
+    reviewRef.set({
+        relatedTo : relatedTo,
+        rating : rating,
+        description : description,
+        title : title
+    });
+    res.status(200).json({message : "Task update successful"});
+});
+
+app.post("/getReviews", function(req, res) {
+    var relatedTo = req.body.relatedTo;
+
+    var db = firebase.database();
+    var ref = db.ref("/Reviews/");
+    ref
+        .orderByChild('relatedTo')
+        .startAt(relatedTo)
+        .endAt(relatedTo)
+        .once("value", function(snapshot) {
+            res.status(200).json(snapshot.val());
+        }, function (errorObject) {
+            console.log("The read failed: " + errorObject.code);
+        });
+});
+
+//open
+//complete
+//paid
