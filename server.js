@@ -99,8 +99,6 @@ app.post("/createTask", function(req, res) {
             createdDate : createdDate,
             Id : Id,
             imageUpload : imageUpload,
-            lat : lat,
-            long: long,
             status: 'open'
         });
         res.status(200).json({message : "Task creation successful"});
